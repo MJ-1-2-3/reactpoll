@@ -5,7 +5,7 @@ import Filter from './Filter'
 
 function SideBar() {
   return (
-    <div style={{marginLeft: '10px', paddingLeft: '10px' }}><CreatePollBtn/><br/>
+    <div style={{marginLeft: '20px', paddingLeft: '20px' }}><CreatePollBtn/><br/>
     <Filter/>
     </div>
     

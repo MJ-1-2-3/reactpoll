@@ -2,7 +2,7 @@ import React from 'react'
 
 function Tags() {
   return (
-    <div>
+    <div style={{marginLeft:'10px'}}>
       <p>Tags:Sports, Games</p>  
     </div>
   )

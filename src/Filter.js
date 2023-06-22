@@ -18,7 +18,7 @@ function Filter() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(checkboxes)
+        console.log(checkboxes);
     };
 
     return (

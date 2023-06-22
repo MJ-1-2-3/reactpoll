@@ -1,19 +1,24 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function CreatePollBtn() {
+const CreatePollBtn = () => {
+    const navigate = useNavigate();
+
     const handleClick = () => {
         console.log("Create Poll button clicked");
+        navigate('/create');
     };
 
-    const buttonStyle={
+    const buttonStyle = {
         backgroundColor: 'lightblue',
         color: 'white',
-    }
-    
-  return (
-    <button  style={buttonStyle} onClick={handleClick}>Create Poll</button>
-    
-  );
+    };
+
+    return (
+        <button style={buttonStyle} onClick={handleClick}>
+            Create Poll
+        </button>
+    );
 };
 
-export default CreatePollBtn
+export default CreatePollBtn;
