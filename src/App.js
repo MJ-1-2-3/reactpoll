@@ -11,7 +11,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/polls/" element={<PollDetail />} />
-          <Route path="/vote/" element={<VoteOnThisPoll />} />
+          <Route path="/vote/:id" element={<VoteOnThisPoll />} />
           <Route path="/create" element={<CreatePoll />} />
         </Routes>
       </div>
