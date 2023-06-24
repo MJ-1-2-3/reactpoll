@@ -1,10 +1,10 @@
-import React from "react";
+import React ,  { useEffect ,useState} from "react";
 import Heading from "./Heading";
 import VoteOnThisPollBtn from "./VoteOnThisPollBtn";
 import Table2 from "./Table2";
 import Tags from "./Tags";
 import { PieChart } from "./PieChart";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useParams} from "react-router-dom";
 
 const styles = {
   main: {
@@ -49,24 +49,42 @@ const styles = {
 
 export default function PollDetail() {
   const navigate = useNavigate();
+  const {id} = useParams();
+  const [question, setQuestion] = useState("");
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    // Function to make the API call
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/polls/get_poll/${id}/`);
+        const data = await response.json();
+        console.log(data); // Print the response data in the console
+        setQuestion(data.Question); // Set the question in the state
+        setTableData(data.tableData); // Set the table data in the state
+      } catch (error) {
+        console.error(error); // Print any error that occurred
+      }
+    };
+
+    fetchData(); // Call the function to make the API call
+  }, [id]);
 
   const handleVoteClick = () => {
-    navigate("/vote");
+    navigate(`/vote/${id}`);
   };
   return (
     <div style={styles.main}>
       <Heading />
       <div style={styles.container}>
         <div style={styles.content}>
-          <h1 style={styles.heading}>
-            Will India win the ICC World Cup next time?
-          </h1>
+          <h1 style={styles.heading}> {question}</h1> {/* Display the question here */}
           <button style={styles.btn} onClick={handleVoteClick}>
             Vote on this Poll
           </button>
           <br />
           <br />
-          <Table2 />
+          <Table2 data={tableData} /> {/* Pass the table data as props */}
         </div>
         <div style={styles.figure}>
           <PieChart />
@@ -81,3 +99,6 @@ export default function PollDetail() {
     </div>
   );
 }
+
+
+

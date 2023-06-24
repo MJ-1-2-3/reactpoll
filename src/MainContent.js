@@ -1,30 +1,39 @@
-
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import {useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import TagsContext from './TagsContext';
 
 function MainContent() {
   const [data, setData] = useState([]);
+  const { selectedTags } = useContext(TagsContext);
   const location = useLocation();
-  useEffect(() => {
-    fetchData();
-  }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/polls/getpolls/');
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data)
-        setData(data);
-      } else {
-        throw new Error('Error fetching data');
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
+  useEffect(() => {
+    let url = 'http://127.0.0.1:8000/polls/getpolls/';
+
+    if (selectedTags.length !== 0) {
+      const tagsString = selectedTags.join(',');
+      console.log('Tags:', tagsString);
+      url = 'http://127.0.0.1:8000/polls/tag/' + tagsString + '/';
+      console.log('URL:', url);
     }
-  };
+
+    fetch(url)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Error fetching data');
+        }
+      })
+      .then((data) => {
+        console.log('API response:', data);
+        setData(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [selectedTags]);
 
   return (
     <div>
@@ -42,14 +51,16 @@ function MainContent() {
             <tr key={index}>
               <td>{index + 1}</td>
               <td>
-                
-              <Link to={{
-                pathname: `/vote/${item.id}`,
-                state: { background: location }
-
-              }}>{item.Question}</Link>
+                <Link
+                  to={{
+                    // pathname: `/vote/${item.id}`,
+                    pathname: `/polls/${item.id}`,
+                    state: { background: location },
+                  }}
+                >
+                  {item.Question}
+                </Link>
               </td>
-              
               <td>{calculateTotalVotes(item.OptionVote)}</td>
               <td>{item.Tags.join(', ')}</td>
             </tr>
@@ -63,10 +74,7 @@ function MainContent() {
 function calculateTotalVotes(optionVotes) {
   let totalVotes = 0;
   for (const option in optionVotes) {
-    
-    
     totalVotes += optionVotes[option];
-    
   }
   return totalVotes;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import Heading from './Heading';
 import SideBar  from './SideBar';
 import MainContent from './MainContent';
+import TagsProvider from './TagsProvider';
 import "./QandA.css";
 
 function Home() {
@@ -9,8 +10,10 @@ function Home() {
     <div>
       <Heading />
       <div class = "Main_table">
-      <SideBar />
-      <MainContent />
+      <TagsProvider> {/* Wrap your components with the TagsProvider */}
+          <SideBar />
+          <MainContent />
+        </TagsProvider>
       </div>
     </div>
   );

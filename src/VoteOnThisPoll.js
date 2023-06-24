@@ -35,10 +35,27 @@ function VoteOnThisPoll() {
     setSelectedOption(event.target.value);
   };
 
-  const handleVoteSubmit = () => {
-    // Perform vote submission logic here
-    console.log('Selected Option:', selectedOption);
+  const handleVoteSubmit = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/polls/update/${id}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ incrementOption: selectedOption }),
+      });
+  
+      if (response.ok) {
+        // Vote successfully updated, handle any necessary actions
+        console.log('Vote submitted successfully');
+      } else {
+        throw new Error('Error updating vote');
+      }
+    } catch (error) {
+      console.error('Error updating vote:', error);
+    }
   };
+
 
   return (
     <div>
