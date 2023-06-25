@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Heading from './Heading';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 
 function VoteOnThisPoll() {
   const { id } = useParams();
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetchData();
@@ -48,6 +50,7 @@ function VoteOnThisPoll() {
       if (response.ok) {
         // Vote successfully updated, handle any necessary actions
         console.log('Vote submitted successfully');
+        navigate(`/polls/${id}`);
       } else {
         throw new Error('Error updating vote');
       }

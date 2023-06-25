@@ -1,8 +1,9 @@
 import React from 'react'
 
-function AddOptionBtn() {
+function AddOptionBtn({ onAddOption }) {
     const handleClick = () => {
         console.log("Add Option Btn clicked");
+        onAddOption(); 
     };
 
     const buttonStyle={
@@ -11,7 +12,7 @@ function AddOptionBtn() {
     }
     
   return (
-    <button style={buttonStyle} onClick={handleClick}>Add Option Btn</button>
+    <button type = "button" style={buttonStyle} onClick={handleClick}>Add Option Btn</button>
     
   );
 };
