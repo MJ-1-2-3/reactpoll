@@ -1,10 +1,12 @@
 import React ,  { useEffect ,useState} from "react";
 import Heading from "./Heading";
 import VoteOnThisPollBtn from "./VoteOnThisPollBtn";
-import Table2 from "./Table2";
-import { PieChart } from "./PieChart";
+import PieChart from "./PieChart";
 import { useNavigate ,useParams} from "react-router-dom";
+import PropTypes from "prop-types";
 
+//{} for import means using named exports. It allows us to selectively import only the named exports from a file with multiple exports
+//without {} means using default export
 const styles = {
   main: {
     height: "100vh",
@@ -21,12 +23,15 @@ const styles = {
   content: {
     width: "70%",
     height: "auto",
+    
+    
   },
   figure: {
     width: "30%",
     height: "auto",
     display: "flex",
     flexDirection: "column",
+    marginLeft: "20px"
     // background-color: "red",
   },
   heading: {
@@ -88,36 +93,6 @@ export default function PollDetail() {
   const handleVoteClick = () => {
     navigate(`/vote/${id}`);
   };
-//   return (
-//     <div style={styles.main}>
-//       <Heading />
-//       <div style={styles.container}>
-//         <div style={styles.content}>
-//           <h1 style={styles.heading}> {question}</h1> {/* Display the question here */}
-//           <button style={styles.btn} onClick={handleVoteClick}>
-//             Vote on this Poll
-//           </button>
-//           <br />
-//           <br />
-//           <Table2 data={tableData} /> {/* Pass the table data as props */}
-//         </div>
-//         <div style={styles.figure}>
-//           <PieChart />
-//           <div>
-//             <p style={styles.caption}>Total Votes : 22</p>
-//           </div>
-//         </div>
-//       </div>
-//       <div style={styles.footer}>
-//         <p>Tags: Sports, Games</p>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
 return (
   <div style={styles.main}>
     <Heading />
@@ -148,9 +123,9 @@ return (
         </table>
       </div>
       <div style={styles.figure}>
-        <PieChart />
+        <PieChart questionId={id}/>
         <div>
-          <p style={styles.caption}>Total Votes: 22</p>
+          
         </div>
         
       </div>

@@ -1,102 +1,3 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import './QandA.css';
-// import './AddOptionBtn'
-// import AddOptionBtn from './AddOptionBtn';
-
-// const styles = {
-//   optionInput: {
-//     marginBottom: '10px', // Add spacing between options
-//   },
-// };
-// function QandA() {
-//   const [options, setOptions] = useState(['']);
-//   const [question, setQuestion] = useState('');
-//   const [tags, setTags] = useState('');
-//   const navigate = useNavigate();
-
-//   const handleAddOption = () => {
-//     setOptions([...options, '']);
-//   };
-
-//   const handleOptionChange = (index, value) => {
-//     const updatedOptions = [...options];
-//     updatedOptions[index] = value;
-//     setOptions(updatedOptions);
-//   };
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     const data = {
-//       question,
-//       options,
-//       tags,
-//     };
-//   }
-
-//   try {
-//     const url = `http://127.0.0.1:8000/polls/api1/`;
-//     const config = {
-//       method: 'POST',
-//       headers: {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(data),
-//     };
-//     const response = await fetch(url, config);
-//     if (response.ok) {
-//       // Redirect the user after successful submission
-//       navigate('/success'); // Replace '/success' with your desired success page URL
-//     } else {
-//       // Handle other responses or show an error message
-//     }
-//   } catch (error) {
-//     // Handle error or show an error message
-//   }   
-
-//   };
-
-//   return (
-//         <div class="list">
-//           <div class="form">
-//             <form />
-//             <label for="question" >Question</label><br/>
-//             <input class="box" type="text" id="question" name="question" placeholder="Type your poll question here"  /><br />
-
-//             <label for="answer">Answer Options</label><br/>
-//             {options.map((option, index) => (
-//             <input
-//               key={index}
-//               type="text"
-//               className="box"
-//               style={styles.optionInput}
-//               value={option}
-//               onChange={(e) => handleOptionChange(index, e.target.value)}
-//               placeholder={`Option${index + 1}`}
-//             />
-//           ))}
-
-
-//             <AddOptionBtn  onAddOption={handleAddOption}/>
-//             <div class="Double_arrow"></div><br />
-            
-//             <label for="tags">Comma separated tags</label><br/>
-//             <input type = "text"  class="box" id="tags" name="tags" placeholder="Tag1, Tag2, Tag3" /><br/><br/>
-
-//             </div>
-//             <br />
-//             <button type="submit">Create Poll</button>
-            
-
-//           </div> 
-    
-//   );
-// }
-
-// export default QandA;
-
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './QandA.css';
@@ -114,6 +15,19 @@ function QandA() {
   const [Question, setQuestion] = useState('');
   const [Tags, setTags] = useState(['']);
   const navigate = useNavigate();
+  
+    // const formStyle = {
+    //   width: '90px',
+    //   height: '300px',
+    //   paddingleft : '20px',
+      
+    // };
+    const buttonStyle = {
+      backgroundColor: 'lightgreen',
+      color: 'white',
+      width: '200px',
+      height: '50px',
+    };  
 
   const handleAddOption = () => {
      
@@ -165,7 +79,7 @@ function QandA() {
   return (
     <div className="list">
       <div className="form">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
           <label htmlFor="question">Question</label><br/>
           <input
             className="box"
@@ -175,7 +89,7 @@ function QandA() {
             placeholder="Type your poll question here"
             value={Question}
             onChange={(e) => setQuestion(e.target.value)}
-          /><br />
+          /><br /><br/>
 
           <label htmlFor="answer">Answer Options</label><br/>
           {OptionVote.map((OptionVote, index) => (
@@ -204,8 +118,9 @@ function QandA() {
             onChange={(e) => setTags(e.target.value.split(','))}
           /><br/><br/>
 
-          <button type="submit" >Create Poll</button>
+        <button type="submit" style={buttonStyle} >Create Poll</button>
         </form>
+        
       </div>
     </div>
   );

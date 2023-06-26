@@ -1,62 +1,86 @@
-// import React from "react";
-// import { Chart } from "react-google-charts";
-
-// export const data = [
-//   ["Options", "Votes"],
-//   ["Yes.India will win the ICC world cup.", 12],
-//   ["No.India will not  win the ICC world cup.", 10],
-
-// ];
-
-// export const options = {
-// //   title: "My Daily Activities",
-// };
-
-// export function PieChart() {
-//   return (
-//     <Chart
-//       chartType="PieChart"
-//       data={data}
-//       options={options}
-//       width={"100%"}
-//       height={"200px"}
-//     />
-//   );
-// }
-
-import React from "react";
+import React , {useEffect, useState} from "react";
 import { Chart } from "react-google-charts";
+import PropTypes from "prop-types";
 
-export const data = [
-  ["Options", "Votes"],
-  ["Yes. India will win the ICC world cup.", 12],
-  ["No. India will not  win the ICC world cup.", 10],
-];
 
-export const options = {
+const styles = {
+  chartContainer: {
+    position: "relative",
+    width: "200px",
+    height: "20px",
+    // backgroundColor: "red",
+  },
+  totalVotes: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    textAlign: "center",
+    fontSize: "18px",
+  },
+
+}
+
+
+const options = {
   legend: "none",
   pieSliceText: "label",
-  //   title: "Swiss Language Use (100 degree rotation)",
   pieStartAngle: 100,
-  position: 'relative'
+  position: "relative",
+  // titleTextStyle: { fontSize: 14, fontName: "Arial" },
+  // pieSliceTextStyle: { fontSize: 12, fontName: "Arial" },
+  chartArea: { width: "80%", height: "80%" },
 };
 
-// Extract the first word from the options for labels
-const labels = data
-  .slice(1)
-  .map(([option]) => option.split(" ")[0].replace(/[^\w\s]/gi, ""));
-data.slice(1).forEach((row, index) => {
-  row[0] = labels[index];
-});
+const PieChart = ({ questionId }) => {
+  const [chartData, setChartData] = useState([]);
+  const [totalVotes, setTotalVotes] = useState(0);
 
-export function PieChart() {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/polls/get_poll/${questionId}/`)
+        const data = await response.json();
+        const optionVote = data.OptionVote;
+        const transformedData = Object.entries(optionVote).map(([option, votes]) => [
+          option,
+          votes,
+        ]);
+        setChartData(transformedData);
+        const sumVotes = Object.values(optionVote).reduce(
+          (total, votes) => total + votes,
+          0
+        );
+        setTotalVotes(sumVotes);
+
+      }catch(error) {
+        console.error("Error fetching data: ",error)
+      }
+    };
+    if (questionId) {
+      fetchData();}
+  }, [questionId]);
+
+
+
+
+
   return (
-    <Chart
-      chartType="PieChart"
-      data={data}
-      options={options}
-      width={"400px"}
-      height={"400px"}
-    />
+    <div style={styles.chartContainer}>
+      <Chart
+        chartType="PieChart"
+        data={[["Options", "Votes"], ...chartData]} 
+        options={options}
+        width={"400px"}
+        height={"400px"}
+      />
+      <p styles={styles.totalVotes}>Total Votes: {totalVotes}</p>
+    </div>
   );
-}
+};
+
+PieChart.propTypes = {
+  questionId: PropTypes.string.isRequired,
+};
+
+export default PieChart;

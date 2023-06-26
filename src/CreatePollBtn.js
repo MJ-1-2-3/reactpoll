@@ -12,6 +12,9 @@ const CreatePollBtn = () => {
     const buttonStyle = {
         backgroundColor: 'lightblue',
         color: 'white',
+        width: '240px',
+        height: '50px',
+        
     };
 
     return (

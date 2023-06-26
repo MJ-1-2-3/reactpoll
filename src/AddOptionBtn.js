@@ -9,6 +9,8 @@ function AddOptionBtn({ onAddOption }) {
     const buttonStyle={
         backgroundColor: 'lightblue',
         color: 'white',
+        width: '200px',
+        height: '40px',
     }
     
   return (

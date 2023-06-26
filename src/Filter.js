@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useContext } from 'react';
 import TagsContext from './TagsContext';
 
@@ -11,6 +9,13 @@ function Filter() {
     fetchData();
   }, []);
 
+  const buttonStyle = {
+    backgroundColor: 'lightgreen',
+    color: 'black',
+    width: '200px',
+    height: '50px',
+    
+};
   const fetchData = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/polls/get_tag/');
@@ -48,7 +53,7 @@ function Filter() {
   };
 
   return (
-    <div style={{ backgroundColor: 'gray', width: '100px' }}>
+    <div style={{ backgroundColor: 'lightgray', width: '200px',padding: '20px' }}>
       <form onSubmit={handleSubmit}>
         {Object.entries(checkboxes).map(([tag, isChecked]) => (
           <div key={tag}>
@@ -67,7 +72,7 @@ function Filter() {
           </div>
         ))}
 
-        <button type="submit">FilterbyTags</button>
+        <button type="submit" style={buttonStyle}>FilterbyTags</button>
       </form>
     </div>
   );
